@@ -1,10 +1,17 @@
+-- CLEANUP ----------------------------------------------------------
 do $$ declare
     r record;
 begin
     for r in (select tablename from pg_tables where schemaname = 'public') loop
-        execute 'drop table if exists ' || quote_ident(r.tablename) || ' cascade';
+        execute 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
     end loop;
 end $$;
+
+-- POSTGIS: INIT ----------------------------------------------------
+DROP SCHEMA IF EXISTS gis CASCADE;
+CREATE SCHEMA gis;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA gis;
+GRANT USAGE ON SCHEMA gis to anon;
 
 -- TABLE: USERS -----------------------------------------------------
 CREATE TABLE "users" (
@@ -24,12 +31,35 @@ CREATE TABLE "markers" (
   "title" varchar NOT NULL,
   "description" varchar(255),
   "address" varchar,
-  "location" varchar,
-  "longitude" float,
-  "latitude" float,
+  "lon" float,
+  "lat" float,
+  "location" gis.geography(POINT) NOT NULL,
   "user_id" uuid
 );
 ALTER TABLE "markers" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+CREATE INDEX geo_markers ON markers USING GIST (location);
+
+-- FUNCTION: NEARBY_MARKERS -----------------------------------------
+DROP FUNCTION IF EXISTS nearby_markers;
+CREATE FUNCTION nearby_markers(lat float, lon float, distance int)
+    RETURNS TABLE (
+        marker_id markers.marker_id%TYPE,
+        title markers.title%TYPE,
+        lat float,
+        lon float,
+        distance_meters float
+        )
+    LANGUAGE SQL
+    as $$
+        SELECT  marker_id,
+                title,
+                gis.st_y(location::gis.geometry) as lat,
+                gis.st_x(location::gis.geometry) as lon,
+                gis.st_distance(location, gis.st_point(lon, lat)::gis.geography) as distance_meters
+        FROM markers
+        WHERE gis.st_dwithin(location, gis.st_point(lon, lat)::gis.geography, distance)
+        ORDER BY distance_meters ASC
+    $$;
 
 -- TABLE: MARKERS CATEGORIES ----------------------------------------
 CREATE TABLE "markers_categories" (
@@ -88,9 +118,9 @@ ALTER TABLE "planners_markers" ADD FOREIGN KEY ("marker_id") REFERENCES "markers
 INSERT INTO users (username)
   VALUES ('hannah'), ('vikki'), ('georgia'), ('riona'), ('david');
 
-INSERT INTO markers (title, longitude, latitude)
-  VALUES  ('Manchester Museum', 53.4664686, -2.2368268 ),
-          ('Emmeline Pankhurst Statue', 53.477778, -2.243056 ),
-          ('Mamucium Roman Fort Reconstruction', 53.4754896, -2.2588591 ),
-          ('Manchester Cathedral', 53.4851459, -2.2490792 ),
-          ('Alan Turing Memorial', 53.4767288, -2.2407774 );
+INSERT INTO markers (title, location)
+  VALUES  ('Manchester Museum', gis.st_point(-2.2368268, 53.4664686) ),
+          ('Emmeline Pankhurst Statue',gis.st_point(-2.243056 , 53.477778)),
+          ('Mamucium Roman Fort Reconstruction', gis.st_point(-2.2588591, 53.4754896) ),
+          ('Manchester Cathedral', gis.st_point(-2.2490792, 53.4851459) ),
+          ('Alan Turing Memorial', gis.st_point(-2.2407774, 53.4767288) );
