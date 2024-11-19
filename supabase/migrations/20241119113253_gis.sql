@@ -1,6 +1,7 @@
 -- Initialize postgis
 DROP SCHEMA IF EXISTS gis CASCADE;
 CREATE SCHEMA IF NOT EXISTS gis;
+GRANT USAGE ON SCHEMA gis to anon;
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA gis;
 
 -- Recreate table
@@ -8,7 +9,7 @@ DROP TABLE IF EXISTS gis_markers;
 CREATE TABLE gis_markers (
     marker_id uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
     name varchar NOT NULL,
-    location gis.geometry(POINT, 4326) NOT NULL
+    location gis.geometry(POINT) NOT NULL
 );
 
 CREATE INDEX gis_markers_index ON gis_markers USING GIST (location);

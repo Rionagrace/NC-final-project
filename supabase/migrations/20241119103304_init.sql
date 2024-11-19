@@ -88,7 +88,7 @@ ALTER TABLE "planners_markers" ADD FOREIGN KEY ("marker_id") REFERENCES "markers
 INSERT INTO users (username)
   VALUES ('hannah'), ('vikki'), ('georgia'), ('riona'), ('david');
 
-INSERT INTO markers (title, longitude, latitude)
+INSERT INTO markers (title, latitude, longitude)
   VALUES  ('Manchester Museum', 53.4664686, -2.2368268 ),
           ('Emmeline Pankhurst Statue', 53.477778, -2.243056 ),
           ('Mamucium Roman Fort Reconstruction', 53.4754896, -2.2588591 ),
