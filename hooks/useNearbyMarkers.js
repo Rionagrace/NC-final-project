@@ -2,19 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabaseClient";
 
 export default function useNearbyMarkers({
-  longitude = -2.2490792,
-  latitude = 53.4851459,
-  distance = 100,
+  long = -2.2384542,
+  lat = 53.4722013,
+  distance = 1000,
 }) {
-  console.log({ longitude, latitude, distance });
-
   return useQuery({
-    queryKey: ["nearby-markers", longitude, latitude],
+    queryKey: ["nearby-markers", long, lat, distance],
     queryFn: () =>
       supabase
         .rpc("nearby_markers", {
-          longitude,
-          latitude,
+          long,
+          lat,
           distance,
         })
         .then((res) => {

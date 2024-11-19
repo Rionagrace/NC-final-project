@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, Text } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
 
@@ -12,12 +12,13 @@ export default function MarkerList({ queries }) {
     data?.length > 0 && (
       <FlatList
         data={data}
-        renderItem={({ item: { name, distance_meters } }) => (
+        renderItem={({ item: { title, distance_meters } }) => (
           <Text>
-            {name}: {distance_meters}m
+            {title}: {distance_meters}m
           </Text>
         )}
       />
     )
   );
+  0;
 }
