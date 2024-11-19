@@ -1,3 +1,11 @@
+do $$ declare
+    r record;
+begin
+    for r in (select tablename from pg_tables where schemaname = 'public') loop
+        execute 'drop table if exists ' || quote_ident(r.tablename) || ' cascade';
+    end loop;
+end $$;
+
 -- TABLE: USERS -----------------------------------------------------
 CREATE TABLE "users" (
   "user_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
@@ -78,4 +86,11 @@ ALTER TABLE "planners_markers" ADD FOREIGN KEY ("marker_id") REFERENCES "markers
 
 -- SEEDING: USERS ---------------------------------------------------
 INSERT INTO users (username)
-    VALUES ('hannah'), ('vikki'), ('georgia'), ('riona'), ('david');
+  VALUES ('hannah'), ('vikki'), ('georgia'), ('riona'), ('david');
+
+INSERT INTO markers (title, longitude, latitude)
+  VALUES  ('Manchester Museum', 53.4664686, -2.2368268 ),
+          ('Emmeline Pankhurst Statue', 53.477778, -2.243056 ),
+          ('Mamucium Roman Fort Reconstruction', 53.4754896, -2.2588591 ),
+          ('Manchester Cathedral', 53.4851459, -2.2490792 ),
+          ('Alan Turing Memorial', 53.4767288, -2.2407774 );
