@@ -59,8 +59,6 @@ const index = () => {
           <Text>Create an account</Text>
         </Link>
       </TouchableOpacity>
-
-      <Link href="/">Go home</Link>
     </View>
   );
 };
