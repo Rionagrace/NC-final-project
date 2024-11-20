@@ -13,10 +13,13 @@ const styles = StyleSheet.create({
   },
 });
 
-function MapboxExample() {
+function MapboxExample({ onLongPress = () => null }) {
   return (
     <View style={styles.container}>
-      <MapView style={styles.map}></MapView>
+      <MapView
+        style={styles.map}
+        onLongPress={(e) => onLongPress(e.geometry.coordinates)}
+      ></MapView>
     </View>
   );
 }
