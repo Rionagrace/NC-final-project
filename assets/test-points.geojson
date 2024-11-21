@@ -1,0 +1,92 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": { "type": "Point", "coordinates": [-2.243056, 53.477778] },
+			"properties": { "title": "Emmeline Pankhurst Statue" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.24465105455576, 53.4781646404297]
+			},
+			"properties": { "title": "Manchester Library" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.24531978438671, 53.4771245864725]
+			},
+			"properties": { "title": "Midland hotel" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.24427094085326, 53.4791958537723]
+			},
+			"properties": { "title": "Town Hall" }
+		},
+		{
+			"type": "Feature",
+			"geometry": { "type": "Point", "coordinates": [-2.2407774, 53.4767288] },
+			"properties": { "title": "Alan Turing Memorial" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.23988384178912, 53.4783760685976]
+			},
+			"properties": { "title": "Manchester Art Gallery" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.24755952549251, 53.4763296030546]
+			},
+			"properties": { "title": "Manchester Central Station" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.25143518962375, 53.478906018399]
+			},
+			"properties": { "title": "Manchester Opera House" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.23810383341322, 53.4721719765798]
+			},
+			"properties": { "title": "NC Office" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.25364964134124, 53.4757504929768]
+			},
+			"properties": { "title": "Roman Gardens" }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-2.24394875223936, 53.4846719494712]
+			},
+			"properties": { "title": "Old Wellington Pub" }
+		},
+		{
+			"type": "Feature",
+			"geometry": { "type": "Point", "coordinates": [-2.2490792, 53.4851459] },
+			"properties": { "title": "Manchester Cathedral" }
+		}
+	]
+}

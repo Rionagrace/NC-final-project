@@ -3,6 +3,8 @@ import { Text, View } from "react-native";
 import useCurrentLocation from "../../../hooks/useCurrentLocation";
 import InteractiveMap from "../../../components/InteractiveMap";
 import FloatingAction from "../../../components/FloatingAction";
+import RouteMap from "../../../components/RouteMap";
+
 
 export default function Explore() {
   const { location, isPending, error } = useCurrentLocation();
@@ -16,7 +18,7 @@ export default function Explore() {
   return (
     <>
       <View style={{ height: "100%" }}>
-        <InteractiveMap coords={longLat} distance={1000} />
+        <RouteMap coords={longLat} distance={1000} />
       </View>
       <FloatingAction href="/explore/add-spot">
         <Text className="text-center text-2xl font-bold text-white">+</Text>
