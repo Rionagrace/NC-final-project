@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import { Text, View, Alert, StyleSheet } from "react-native";
 import { supabase } from "./supabaseClient";
 import { Input, Button } from "@rneui/themed";
 
@@ -9,28 +9,6 @@ const index = () => {
     email: "",
     password: "",
   });
-
-  const users = [
-    { username: "David", password: "David" },
-    { username: "Georgia", password: "Georgia" },
-    { username: "Hannah", password: "Hannah" },
-    { username: "Riona", password: "Riona" },
-    { username: "Viktoriia", password: "Viktoriia" },
-  ];
-
-  const onPressLogin = () => {
-    const user = users.find((user) => user.username === state.username);
-
-    if (user) {
-      if (user.password === state.password) {
-        Alert.alert("Success", `Welcome back, ${state.username}!`);
-      } else {
-        Alert.alert("Error", "Incorrect password. Please try again.");
-      }
-    } else {
-      Alert.alert("Error", "Username not found. Please sign up.");
-    }
-  };
 
   async function signInWithEmail() {
     const { error } = await supabase.auth.signInWithPassword({
@@ -46,11 +24,11 @@ const index = () => {
   }
 
   async function signUpWithEmail() {
-    const { error } = await supabase.auth.signUp({
+    const { error, data } = await supabase.auth.signUp({
       email: state.email,
       password: state.password,
-    });
-
+    }) 
+console.log(data)
     if (error) {
       Alert.alert("Error", error.message);
     } else {
@@ -63,27 +41,6 @@ const index = () => {
 
   return (
     <View style={styles.container}>
-      {/* юзернейм логин */}
-      <Text style={styles.title}>Log In with Username</Text>
-      <TextInput
-        placeholder="Enter username"
-        placeholderTextColor="#003f5c"
-        onChangeText={(text) => setState((prevState) => ({ ...prevState, username: text }))}
-        value={state.username}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Enter password"
-        placeholderTextColor="#003f5c"
-        secureTextEntry
-        onChangeText={(text) => setState((prevState) => ({ ...prevState, password: text }))}
-        value={state.password}
-        style={styles.input}
-      />
-      <TouchableOpacity onPress={onPressLogin} style={styles.button}>
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-
       {/* имейл и пассворд авторизация */}
       <Text style={styles.title}>Log In / Sign Up with Email</Text>
       <Input
