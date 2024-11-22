@@ -1,17 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
+import HeadingTop from "../../components/HeadingTop";
+import DevAuthenticatedUser from "../../dev_components/DevAuthenticatedUser";
 
 export default function Page() {
   return (
-    <View style={styles.container}>
-      <Text>Dev Page</Text>
+    <View className="p-4">
+      <HeadingTop>Dev Page</HeadingTop>
+      <DevAuthenticatedUser />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

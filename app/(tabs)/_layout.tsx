@@ -2,9 +2,11 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { Screen } from "expo-router/build/views/Screen";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../components/Auth/AuthContext";
 
 export default function _layout() {
-  const userExists = true;
+  const { user } = useContext(AuthContext);
 
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
@@ -33,16 +35,28 @@ export default function _layout() {
           ),
         }}
       />
-      <Screen
-        name="user-profile"
-        options={{
-          title: "User",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name={"user"} color={color} />
-          ),
-          href: userExists ? "/user-profile" : "/login",
-        }}
-      />
+      {user ? (
+        <Screen
+          name="user-profile"
+          options={{
+            title: "User",
+            tabBarIcon: ({ color }) => (
+              <FontAwesome size={28} name={"user"} color={color} />
+            ),
+          }}
+        />
+      ) : (
+        <Screen
+          name="user-profile"
+          options={{
+            title: "Login",
+            tabBarIcon: ({ color }) => (
+              <FontAwesome size={28} name={"user"} color={color} />
+            ),
+            href: "/login",
+          }}
+        />
+      )}
     </Tabs>
   );
 }

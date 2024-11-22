@@ -1,11 +1,17 @@
 import { Link } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+
+import { useContext } from "react";
+import { AuthContext } from "../../../components/Auth/AuthContext";
 
 export default function Tab() {
+  const { user, signOut } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
-      <Text>User Profile</Text>
+      <Text>User Profile: {user?.email}</Text>
       <Link href="/user-profile/my-spots">My Spots</Link>
+      <Button title="Logout" onPress={signOut} />
     </View>
   );
 }
