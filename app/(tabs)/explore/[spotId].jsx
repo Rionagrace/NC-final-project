@@ -51,6 +51,7 @@ export default function SpotDetails() {
         disabled={!canAddToPlanner}
       />
       <View>
+        <Text>Votes total: {data.votes}</Text>
         <Text>Last vote: {vote}</Text>
         <Button title="add" onPress={() => addVote(3)} disabled={!canVote} />
         <Button title="remove" onPress={removeVote} disabled={!canVote} />
