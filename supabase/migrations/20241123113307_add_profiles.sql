@@ -1,9 +1,12 @@
-DROP TABLE IF EXISTS public.profiles CASCADE;
-CREATE TABLE public.profiles (
+-- CREATE TABLE
+DROP TABLE IF EXISTS profiles CASCADE;
+CREATE TABLE profiles (
   user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+  username VARCHAR UNIQUE,
   PRIMARY KEY (user_id)
 );
 
+-- HANDLE NEW USER
 CREATE OR REPLACE FUNCTION public.handle_new_user()
   RETURNS TRIGGER
   LANGUAGE plpgsql
@@ -20,5 +23,3 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
     FOR EACH ROW
       EXECUTE PROCEDURE public.handle_new_user();
-
-GRANT USAGE ON SCHEMA gis to authenticated;

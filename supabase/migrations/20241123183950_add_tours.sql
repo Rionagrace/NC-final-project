@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS tours CASCADE;
+CREATE TABLE tours (
+  tour_id SERIAL PRIMARY KEY,
+  title VARCHAR NOT NULL,
+  description TEXT
+);

@@ -11,10 +11,19 @@ This project requires `PostGIS` extension. Entire setup and seeding is covered i
    ```
 2. Run `npx supabase link` to link cloud account with CLI
 3. Run `npx supabase db push` to apply all migrations
+4. Run `npx supabase test db --linked` to prove schema
 
 ### Supabase Cloud Reset
 
 **DANGER:** Run `npx supabase db reset --linked`
+
+### Tests failing upon reset
+
+**Reason:** DB cannot be tested after seeding.
+
+1. Run `npx supabase db reset --linked --no-seed`
+2. Run `npx supabase test db --linked`
+3. Supabase CLI does not support on demand seeding at the time of writing this. At this step to seed database rerun reset without `--no-seed` flag
 
 ## Issues
 
