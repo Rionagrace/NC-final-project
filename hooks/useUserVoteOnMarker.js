@@ -60,9 +60,13 @@ export default function useUserVoteOnMarker(marker_id) {
 
       return { prevData };
     },
-    onSuccess: () => queryClient.invalidateQueries(["marker", marker_id]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["marker", marker_id]);
+    },
     onError: (err, vars, ctx) => {
+      console.log({ err, vars, ctx });
       queryClient.setQueryData(userVoteKeys, ctx.prevData);
+      queryClient.invalidateQueries(["marker", marker_id]);
     },
     enabled: canVote,
   });
