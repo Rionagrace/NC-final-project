@@ -11,9 +11,9 @@ INSERT INTO markers (marker_id, title, longitude, latitude)
             (102, 'MOCK2', -2.2490792, 53.4851459)
 ;
 
-INSERT INTO votes (user_id, marker_id)
-VALUES  ('00000000-0000-0000-0000-000000000000', 101),
-        ('00000000-0000-0000-0000-000000000000', 102);
+INSERT INTO votes (user_id, marker_id, value)
+VALUES  ('00000000-0000-0000-0000-000000000000', 101, 3),
+        ('00000000-0000-0000-0000-000000000000', 102, 5);
 
 SELECT is(
     (SELECT count(*) FROM votes WHERE user_id = '00000000-0000-0000-0000-000000000000'),
