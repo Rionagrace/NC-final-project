@@ -1,25 +1,23 @@
-import React, { useContext } from "react";
+import React from "react";
 import { FlatList, Text, View } from "react-native";
-import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 
 export default function planner() {
-  const { user } = useContext(AuthContext);
-  const { data: planner } = useUserPlanner(user.id);
-
-  console.log({ user, planner });
+  const { data } = useUserPlanner();
 
   return (
     <View>
       <Text>planner Page</Text>
-      <FlatList
-        data={planner}
-        renderItem={({ item: { markers }, index }) => (
-          <Text>
-            {index}: {JSON.stringify(markers)}
-          </Text>
-        )}
-      />
+      {data && (
+        <FlatList
+          data={data[0]?.items}
+          renderItem={({ item: { marker }, index }) => (
+            <Text>
+              {index}: {JSON.stringify(marker)}
+            </Text>
+          )}
+        />
+      )}
     </View>
   );
 }

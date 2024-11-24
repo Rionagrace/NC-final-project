@@ -1,15 +1,21 @@
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { Button, Text, View } from "react-native";
 import SingleMarkerCard from "../../../components/SingleMarkerCard";
 import useMarkerInfo from "../../../hooks/useMarkerInfo";
-import { supabase } from "../../../utils/supabaseClient";
-import { useContext } from "react";
-import { AuthContext } from "../../../components/Auth/AuthContext";
+import useUserAddToPlanner from "../../../hooks/useUserAddToPlanner";
+import useUserVoteOnMarker from "../../../hooks/useUserVoteOnMarker";
 
 export default function SpotDetails() {
   const { spotId } = useLocalSearchParams();
-  const { user } = useContext(AuthContext);
-  const { data, isPending, error } = useMarkerInfo(spotId);
+
+  const marker_id = Number(spotId);
+
+  const { data, isPending, error } = useMarkerInfo(marker_id);
+  const { canAddToPlanner, mutate: addToPlanner } =
+    useUserAddToPlanner(marker_id);
+
+  const { vote, canVote, addVote, removeVote, updateVote } =
+    useUserVoteOnMarker(marker_id);
 
   if (isPending) {
     return (
@@ -34,23 +40,26 @@ export default function SpotDetails() {
       </View>
     );
   }
-  function handleOnPress() {
-    return supabase
-      .from("users_markers")
-      .insert([{ user_id: user.id, marker_id: spotId }])
-      .select()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+
   return (
     <View>
-      {/* <Text>Page: Spot Details - {spotId}</Text> */}
+      <Stack.Screen options={{ title: data.title }} />
       <SingleMarkerCard markerData={data} />
-      <Button title="Add to planner" onPress={handleOnPress} />
+      <Button
+        title="Add to planner"
+        onPress={addToPlanner}
+        disabled={!canAddToPlanner}
+      />
+      <View>
+        <Text>Last vote: {vote}</Text>
+        <Button title="add" onPress={() => addVote(3)} disabled={!canVote} />
+        <Button title="remove" onPress={removeVote} disabled={!canVote} />
+        <Button
+          title="update"
+          onPress={() => updateVote(5)}
+          disabled={!canVote}
+        />
+      </View>
     </View>
   );
 }
