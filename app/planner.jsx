@@ -9,14 +9,25 @@ import useDeleteAllPlanner from "../hooks/useDeleteAllPlanner";
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
 	const [plannerData, setPlannerData] = useState([]);
+  const {mutate} = useDeleteMarkerPlanner()
+  const {mutate: deleteAll} = useDeleteAllPlanner()
+  
 	useEffect(() => {
 		if (data && data[0]?.items) {
 			setPlannerData(data[0].items);
 		}
 	}, [data]);
+
 	if (isPending || error || !data) return null;
 
-	function swapItems(index1, index2) {}
+  const swapItems = (index1, index2) => {
+    if (index1 < 0 || index2 < 0 || index1 >= plannerData.length || index2 >= plannerData.length) return;
+    setPlannerData((prevList) => {
+      const newList = [...prevList];
+      [newList[index1], newList[index2]] = [newList[index2], newList[index1]];
+      return newList;
+    });
+  };
 
 	return (
 		<View style={styles.container}>
@@ -29,15 +40,18 @@ export default function planner() {
 						<Text style={styles.text}>{item.marker.title}</Text>
 						<Button
 							onPress={() => {
-								swapItems(0, 1);
+								swapItems(index, index-1);
 							}}
 							title="↑"
 						/>
-						<Button title="↓" />
+						<Button onPress={() => {
+								swapItems(index, index+1);
+							}} title="↓" />
 					</View>
 				)}
 			/>
 			<Button onPress={deleteAll} title="Empty my planner" />
+      <Button title="Save my route"/>
 			<Link href="/explore?route=show">View my route</Link>
 		</View>
 	);
