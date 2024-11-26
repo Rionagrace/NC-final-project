@@ -5,11 +5,13 @@ import Mapbox, {
   MarkerView,
   ShapeSource,
   SymbolLayer,
+	Images
 } from "@rnmapbox/maps";
 import { Link } from "expo-router";
 import { useRef, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import useNearbyMarkers from "../hooks/useNearbyMarkers";
+
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_MAPBOX_PK);
 
@@ -22,8 +24,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   icon: {
-    iconImage: "rocket",
-    iconSize: 1.5,
+    iconImage: "green_marker",
+    iconSize: .1,
   },
   iconSelected: {
     iconImage: "marker",
@@ -126,11 +128,37 @@ export default function InteractiveMap({
     }
   }
 
+	function closePopUp (){
+		setSelectedFeature(null)
+	}
+
+	function MarkerPopUp({ item: { title, marker_id } }) {
+		return (
+			<View style={styles.calloutContainerStyle}>
+				<Button
+					onPress={() => {
+						closePopUp();
+					}}
+					title="x"
+				/>
+				<Text style={styles.customCalloutText}>{title}</Text>
+				<Link className="bg-blue-500 py-3 rounded-lg text-center " href={`(tabs)/explore/${marker_id}`}>take me here</Link>
+			</View>
+		);
+	}
+
+
   return (
+		
     <View style={styles.container}>
       <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
         <Camera zoomLevel={15} centerCoordinate={coords} />
         <LocationPuck puckBearing="heading" puckBearingEnabled />
+				<Images
+          images={{
+            green_marker: require('../assets/clipart933143.png'), // Local image file
+          }}
+        />
         {/* location markers */}
         {!isInSelectMode && (
           <ShapeSource id="points" shape={geojson} onPress={onPinPress}>
@@ -159,11 +187,3 @@ export default function InteractiveMap({
   );
 }
 
-function MarkerPopUp({ item: { title, marker_id } }) {
-  return (
-    <View style={styles.calloutContainerStyle}>
-      <Text style={styles.customCalloutText}>{title}</Text>
-      <Link href={`(tabs)/explore/${marker_id}`}>take me here</Link>
-    </View>
-  );
-}

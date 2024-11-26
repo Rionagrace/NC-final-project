@@ -5,13 +5,16 @@ import useUserPlanner from "../hooks/useUserPlanner";
 import { Link } from "expo-router";
 import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
 import useDeleteAllPlanner from "../hooks/useDeleteAllPlanner";
+import useUserPlannerUpdate from "../hooks/useUserPlannerUpdate";
 
 export default function planner() {
 	const { data, isPending, error } = useUserPlanner();
 	const [plannerData, setPlannerData] = useState([]);
   const {mutate} = useDeleteMarkerPlanner()
   const {mutate: deleteAll} = useDeleteAllPlanner()
+	const {mutate: plannerUpdate, error: plannerUpdateError} = useUserPlannerUpdate()
   
+	console.log(plannerUpdateError)
 	useEffect(() => {
 		if (data && data[0]?.items) {
 			setPlannerData(data[0].items);
@@ -51,7 +54,7 @@ export default function planner() {
 				)}
 			/>
 			<Button onPress={deleteAll} title="Empty my planner" />
-      <Button title="Save my route"/>
+      <Button onPress={() => plannerUpdate(plannerData)} title="Save my route"/>
 			<Link href="/explore?route=show">View my route</Link>
 		</View>
 	);

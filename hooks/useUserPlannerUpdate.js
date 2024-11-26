@@ -10,9 +10,16 @@ export default function useUserPlannerUpdate() {
   return useMutation({
     mutationKey: ["user", "planner", "update"],
     mutationFn: (markers) =>
-      supabase.rpc("update_planner_sequence", {
+      {const array = markers.map((marker, index) => {
+        return {
+          markerId: marker.marker_id,
+          seq: index
+        }
+      })
+      return supabase.rpc("update_planner_sequence", {
         plannerId,
-        markers,
-      }),
+        markers: JSON.stringify(array),
+      })
+    }
   });
 }
