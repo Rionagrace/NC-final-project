@@ -7,15 +7,14 @@ import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";
 import useDeleteAllPlanner from "../hooks/useDeleteAllPlanner";
 
 export default function planner() {
-	const { data, isPending, error } = useUserPlanner()
+	const { data, isPending, error } = useUserPlanner();
 	const [plannerData, setPlannerData] = useState([]);
-  useEffect(() => {
+	useEffect(() => {
 		if (data && data[0]?.items) {
 			setPlannerData(data[0].items);
 		}
 	}, [data]);
 	if (isPending || error || !data) return null;
-	
 
 	function swapItems(index1, index2) {}
 
