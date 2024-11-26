@@ -2,6 +2,7 @@ import { Link } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../../components/Auth/AuthContext";
+import CustomButton from "../../../components/CustomButton";
 
 export default function Tab() {
   const { user, signOut } = useContext(AuthContext);
@@ -24,16 +25,8 @@ export default function Tab() {
         >
           <Text className="text-white font-semibold text-lg">My Markers</Text>
         </Link>
+        <CustomButton title="Logout" onPress={signOut} color="tertiary"/>
       </View>
-
-      <TouchableOpacity
-        className="bg-red-500 py-3 rounded-lg w-full mt-4"
-        onPress={signOut}
-      >
-        <Text className="text-white text-center font-semibold text-lg">
-          Logout
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 }

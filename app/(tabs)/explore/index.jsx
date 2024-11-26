@@ -1,28 +1,29 @@
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import useCurrentLocation from "../../../hooks/useCurrentLocation";
-import InteractiveMap from "../../../components/InteractiveMap";
 import FloatingAction from "../../../components/FloatingAction";
-import useUserPlanner from "../../../hooks/useUserPlanner";
+import InteractiveMap from "../../../components/InteractiveMap";
+import MapLayerPlanner from "../../../components/MapLayerPlanner";
+import useCurrentLocation from "../../../hooks/useCurrentLocation";
 
 export default function Explore() {
+  const { route } = useLocalSearchParams();
   const { location, isPending, error } = useCurrentLocation();
-	const { data } = useUserPlanner();
 
   if (isPending) return <Text>Pending...</Text>;
   if (error) return <Text>{JSON.stringify(error)}</Text>;
   if (!location) return <Text>No Location</Text>;
 
-  const longLat = [location.longitude, location.latitude];
-
-
-  const routeCoords = data && data[0].items.map((item) => { return [item.marker.longitude, item.marker.latitude]})
-  
+  console.log({ route });
 
   return (
     <>
       <View style={{ height: "100%" }}>
-        <InteractiveMap coords={longLat} distance={1000} routeCoords={routeCoords} />
+        <InteractiveMap
+          coords={[location.longitude, location.latitude]}
+          distance={1000}
+          routeComponent={<MapLayerPlanner enable={route === "show"} />}
+        />
       </View>
       <FloatingAction href="/explore/add-spot">
         <Text className="text-center text-2xl font-bold text-white">+</Text>

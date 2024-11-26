@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Animated, Button, PanResponder, StyleSheet } from "react-native";
 import { FlatList, Text, View } from "react-native";
-import { AuthContext } from "../components/Auth/AuthContext";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { Link } from "expo-router";
 import useDeleteMarkerPlanner from "../hooks/useDeleteMarkerPlanner";

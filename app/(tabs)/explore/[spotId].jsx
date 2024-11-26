@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { Button, Text, View } from "react-native";
 import SingleMarkerCard from "../../../components/SingleMarkerCard";
 import useMarkerInfo from "../../../hooks/useMarkerInfo";
@@ -7,8 +7,11 @@ import { TouchableOpacity } from "react-native";
 import { useContext } from "react";
 import { AuthContext } from "../../../components/Auth/AuthContext";
 import useUserAddToPlanner from "../../../hooks/useUserAddToPlanner";
+import VoteCard from "../../../components/VoteCard";
+import CustomButton from "../../../components/CustomButton";
 
 export default function SpotDetails() {
+  const { user } = useContext(AuthContext);
   const { spotId } = useLocalSearchParams();
   const marker_id = Number(spotId);
   const { data, isPending, error } = useMarkerInfo(marker_id);
@@ -44,16 +47,15 @@ export default function SpotDetails() {
   }
   return (
     <View className="p-4">
+      <Stack.Screen options={{ title: data.title }} />
       <SingleMarkerCard markerData={data} />
-      <TouchableOpacity
-        className="bg-blue-500 py-2 px-4 rounded-full mt-4"
+      <CustomButton
+        title={"Add to Planner"}
+        color={"primary"}
         onPress={addToPlanner}
-        disabled={!canAddToPlanner}
-      >
-        <Text className="text-white text-center font-semibold">
-          Add to planner
-        </Text>
-      </TouchableOpacity>
+        // disabled={true}
+      />
+      <VoteCard marker_id={spotId} votes={data.votes} user={user} />
     </View>
   );
 }
