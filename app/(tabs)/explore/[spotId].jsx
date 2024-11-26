@@ -55,7 +55,12 @@ export default function SpotDetails() {
         onPress={addToPlanner}
         // disabled={true}
       />
-      <VoteCard marker_id={spotId} votes={data.votes} user={user} />
+      <VoteCard
+        marker_id={spotId}
+        avgVote={data.avg_vote}
+        user={user}
+        userVoteCount={data.user_vote_count}
+      />
     </View>
   );
 }
