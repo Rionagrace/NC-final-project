@@ -22,7 +22,7 @@ export default function Explore() {
         <InteractiveMap
           coords={[location.longitude, location.latitude]}
           distance={1000}
-          routeComponent={<MapLayerPlanner enable={route === "show"} />}
+          routeComponent={route === "show" && <MapLayerPlanner enable={route === "show"} />}
         />
       </View>
       <FloatingAction href="/explore/add-spot">

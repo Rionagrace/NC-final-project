@@ -152,11 +152,11 @@ export default function InteractiveMap({
 		
     <View style={styles.container}>
       <MapView style={styles.map} onLongPress={handleLongPress} ref={mapRef}>
-        <Camera zoomLevel={15} centerCoordinate={coords} />
+        {!routeComponent && <Camera zoomLevel={15} centerCoordinate={coords} />}
         <LocationPuck puckBearing="heading" puckBearingEnabled />
 				<Images
           images={{
-            green_marker: require('../assets/clipart933143.png'), // Local image file
+            green_marker: require('../assets/green-marker.png'), 
           }}
         />
         {/* location markers */}
