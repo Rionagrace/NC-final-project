@@ -1,12 +1,19 @@
-import { LineLayer, ShapeSource } from "@rnmapbox/maps";
+import { Camera, Images, LineLayer, ShapeSource } from "@rnmapbox/maps";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import useUserPlanner from "../hooks/useUserPlanner";
 import { mapboxInstance } from "../utils/mapboxInstance";
 
 export default function MapLayerPlanner({ enable }) {
   console.log({ enable });
+
+  const styles = StyleSheet.create({
+    routeIcons: {
+      iconImage: "church_marker",
+      iconSize: 3,
+    },
+  });
 
   const {
     data: planner,
@@ -50,17 +57,47 @@ export default function MapLayerPlanner({ enable }) {
   if (gettingRoute) return <Text>Getting Route...</Text>;
   if (errorPlanner || errorRoute)
     return <Text>ERROR: {JSON.stringify(errorPlanner || errorRoute)}</Text>;
+  const centrePoint = Math.round(
+    route.routes[0].geometry.coordinates.length / 2
+  );
+
+  const coordinates = route.routes[0].geometry.coordinates;
+
+  const [minLng, minLat, maxLng, maxLat] = coordinates.reduce(
+    ([minLng, minLat, maxLng, maxLat], [lng, lat]) => [
+      Math.min(minLng, lng),
+      Math.min(minLat, lat),
+      Math.max(maxLng, lng),
+      Math.max(maxLat, lat),
+    ],
+    [Infinity, Infinity, -Infinity, -Infinity]
+  );
 
   return (
-    <ShapeSource id="route" shape={route.routes[0].geometry}>
-      <LineLayer
-        id="route-layer"
-        style={{
-          lineColor: "#03AA46",
-          lineWidth: 5,
-          lineOpacity: 0.8,
+    <>
+      <Camera
+        bounds={{
+          ne: [maxLng, maxLat],
+          sw: [minLng, minLat],
         }}
+        padding={{
+          paddingTop: 50,
+          paddingBottom: 50,
+          paddingLeft: 50,
+          paddingRight: 50,
+        }}
+        // centerCoordinate={coordinates[0]}
       />
-    </ShapeSource>
+      <ShapeSource id="route" shape={route.routes[0].geometry}>
+        <LineLayer
+          id="route-layer"
+          style={{
+            lineColor: "#03AA46",
+            lineWidth: 5,
+            lineOpacity: 0.8,
+          }}
+        />
+      </ShapeSource>
+    </>
   );
 }

@@ -1,18 +1,21 @@
-DROP FUNCTION IF EXISTS update_planner_sequence CASCADE;
-CREATE FUNCTION update_planner_sequence (plannerId int, markers jsonb) RETURNS VOID AS $$
+DROP FUNCTION IF EXISTS public.update_planner_sequence CASCADE;
+CREATE FUNCTION public.update_planner_sequence (body jsonb) RETURNS VOID AS $$
 DECLARE
+    plannerId int;
     marker jsonb;
     markerId int;
     seq int;
 BEGIN
-    FOR marker IN
-        SELECT * FROM jsonb_array_elements(markers)
-    LOOP
-        markerId := (marker->>'markerId')::int;
-        seq := (marker->>'seq')::int;
+    plannerId := (body->'planner_id')::int;
 
-        UPDATE planners_markers
-            SET sequence = seq
+    FOR marker IN
+        SELECT * FROM jsonb_array_elements(body->'items')
+    LOOP
+        markerId := (marker->'marker_id')::int;
+        seq := (marker->'sequence')::int;
+
+        UPDATE public.planners_markers
+            SET "sequence" = seq
             WHERE planner_id = plannerId AND marker_id = markerId;
     END LOOP;
 END;
