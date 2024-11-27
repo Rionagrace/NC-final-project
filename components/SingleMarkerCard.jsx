@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native";
+import { Image, Text, View } from "react-native";
 
 export default function SingleMarkerCard({ markerData }) {
   return (
@@ -6,7 +6,6 @@ export default function SingleMarkerCard({ markerData }) {
       <View>
         <View className="m-4 mb-0 last-child:mb-4 p-4 min-h-[100] flex justify-center content-center rounded-xl bg-white">
           <Text>{markerData.photo}</Text>
-          console.log(markerData)
           <Image
             source={{
               url: markerData.image,

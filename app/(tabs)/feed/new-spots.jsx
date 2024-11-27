@@ -1,19 +1,20 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import useAllMarkers from "../../../hooks/useAllMarkers";
 import { Link } from "expo-router";
+import React from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import useAllMarkers from "../../../hooks/useAllMarkers";
 
 export default function NewSpots() {
   const { data: markers } = useAllMarkers();
-  console.log(markers,"<<<<markers")
 
-  const latestMarkers = markers.sort((a, b) => b.marker_id - a.marker_id).slice(0, 5);
-
-    console.log(latestMarkers)
+  const latestMarkers = markers
+    .sort((a, b) => b.marker_id - a.marker_id)
+    .slice(0, 5);
 
   return (
     <View className="flex-1 px-4 py-6 bg-gray-100 dark:bg-gray-800">
-      <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">Look! Here are the last markers</Text>
+      <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        Look! Here are the last markers
+      </Text>
       <FlatList
         data={latestMarkers}
         keyExtractor={(item) => item.marker_id.toString()}

@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../utils/supabaseClient";
 
 export default function useNearbyMarkers({ coords, distance, cats }) {
-  console.log(coords, distance, cats);
   return useQuery({
     queryKey: ["nearby-markers", coords[0], coords[1], distance, cats],
     queryFn: () =>

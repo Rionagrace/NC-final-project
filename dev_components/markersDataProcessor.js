@@ -50,7 +50,7 @@ fs.readFile(
     const destructure = lines
       .map((item, index) => {
         const markerId = index + 1;
-        
+
         const line = item.split(/\t/);
         let latlong = line[3]?.replace(/\"/g, "").split(/\s|\,\s*/);
         latlong = latlong?.length === 2 ? latlong : undefined;
@@ -61,7 +61,6 @@ fs.readFile(
           const cleanName = item.replace(/["]+/g, "").trim();
 
           const catId = categories.find((item) => {
-            console.log(item[1].toLowerCase(), cleanName.toLowerCase());
             return item[1].toLowerCase() === cleanName.toLowerCase();
           });
 

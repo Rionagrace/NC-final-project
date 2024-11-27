@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import DevFeatureWrapper from "./DevFeatureWrapper";
 import { Button, Text } from "react-native";
 import { supabase } from "../utils/supabaseClient";
+import DevFeatureWrapper from "./DevFeatureWrapper";
 
 export default function DevTestNearby() {
   const [data, setData] = useState({});
@@ -14,7 +14,6 @@ export default function DevTestNearby() {
         distance: 1000,
       })
       .then((res) => {
-        console.log(res);
         setData(res);
       });
   }

@@ -11,26 +11,21 @@ export default function useCurrentLocation(follow = false) {
 
     Location.requestForegroundPermissionsAsync()
       .then((res) => {
-        console.log({"requestForegroundPermissionsAsync": res})
         if (res.status !== "granted") return Promise.reject("NO_PERMISSION");
 
         return Location.getLastKnownPositionAsync().then((res) => {
-          console.log({"getLastKnownPositionAsync": res})
           if (res) return res;
 
           return getCurrentPositionAsync({ accuracy: 6 });
         });
       })
       .then((res) => {
-        console.log({"getCurrentPositionAsync": res})
         setLocation(res.coords);
 
         if (follow) {
           return Location.watchPositionAsync(
             { accuracy: 6, timeInterval: 60000 },
             ({ coords }) => {
-              console.log({ watchPositionAsync: coords });
-
               setLocation(coords);
             }
           );

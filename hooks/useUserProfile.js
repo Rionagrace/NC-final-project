@@ -6,8 +6,6 @@ import { supabase } from "../utils/supabaseClient";
 export default function useUserProfile() {
   const { userId } = useContext(AuthContext);
 
-  console.log(userId);
-
   const queries = ["profiles", "planners", "votes"].map((table) => ({
     queryKey: [table, "user", userId],
     queryFn: () =>
