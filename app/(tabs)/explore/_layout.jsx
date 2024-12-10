@@ -4,23 +4,19 @@ import React from "react";
 
 export default function _layout() {
   return (
-    <Stack screenOptions={{
-      headerBackTitleVisible: false,
-    }}>
-      <Stack.Screen name="index" options={{ headerShown: false, title: ""}} />
-      {/* <Stack.Screen
-        name="[spotId]"
-        options={{
-          title: "Spot",
-        }}
-      /> */}
+    <Stack
+      screenOptions={{
+        headerBackTitleVisible: false,
+      }}
+    >
+      <Stack.Screen name="index" options={{ headerShown: false, title: "" }} />
       <Stack.Screen name="add-spot" options={{ title: "Add Spot" }} />
       <Screen
-          name="[spotId]"
-          options={{
-            presentation: "modal",
-          }}
-        />
+        name="[spotId]"
+        options={{
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 }

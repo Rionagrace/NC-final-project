@@ -41,12 +41,6 @@ export default function AddSpot() {
         <Text className="text-base text-gray-700 dark:text-gray-300 mb-4 text-center">
           Provide details and select a location on the map
         </Text>
-        {/* <View className="w-full mb-4">
-        <CustomInput onChange={setTitle} label="Title:" />
-      </View>
-      <View className="w-full mb-6">
-        <CustomInput onChange={setDescription} label="Description:" />
-      </View> */}
         <View className="w-full mb-4">
           <Text className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
             Title:
